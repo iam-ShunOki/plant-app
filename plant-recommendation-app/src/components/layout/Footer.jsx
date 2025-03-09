@@ -33,52 +33,76 @@ export default function Footer() {
             <Text fontWeight="bold" fontSize="lg" mb={2}>
               リンク
             </Text>
-            <NextLink href="/" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                ホーム
-              </Link>
-            </NextLink>
-            <NextLink href="/questionnaire" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                アンケート
-              </Link>
-            </NextLink>
-            <NextLink href="/plants" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                植物一覧
-              </Link>
-            </NextLink>
-            <NextLink href="/faq" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                よくある質問
-              </Link>
-            </NextLink>
+            <Link
+              as={NextLink}
+              href="/"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              ホーム
+            </Link>
+            <Link
+              as={NextLink}
+              href="/questionnaire"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              アンケート
+            </Link>
+            <Link
+              as={NextLink}
+              href="/plants"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              植物一覧
+            </Link>
+            <Link
+              as={NextLink}
+              href="/faq"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              よくある質問
+            </Link>
           </Stack>
 
           <Stack align={"flex-start"}>
             <Text fontWeight="bold" fontSize="lg" mb={2}>
               カテゴリー
             </Text>
-            <NextLink href="/plants?category=観葉植物" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                観葉植物
-              </Link>
-            </NextLink>
-            <NextLink href="/plants?category=多肉植物" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                多肉植物
-              </Link>
-            </NextLink>
-            <NextLink href="/plants?category=ハーブ" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                ハーブ
-              </Link>
-            </NextLink>
-            <NextLink href="/plants?category=花" passHref>
-              <Link color="whiteAlpha.800" _hover={{ color: "white" }}>
-                花
-              </Link>
-            </NextLink>
+            <Link
+              as={NextLink}
+              href="/plants?category=観葉植物"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              観葉植物
+            </Link>
+            <Link
+              as={NextLink}
+              href="/plants?category=多肉植物"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              多肉植物
+            </Link>
+            <Link
+              as={NextLink}
+              href="/plants?category=ハーブ"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              ハーブ
+            </Link>
+            <Link
+              as={NextLink}
+              href="/plants?category=花"
+              color="whiteAlpha.800"
+              _hover={{ color: "white" }}
+            >
+              花
+            </Link>
           </Stack>
         </SimpleGrid>
 

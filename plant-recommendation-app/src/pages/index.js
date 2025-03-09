@@ -66,33 +66,33 @@ const RankingItem = ({ rank, name, category, color = "accent.popular" }) => {
 // カテゴリーカード用のヘルパーコンポーネント
 const CategoryCard = ({ name, icon }) => {
   return (
-    <NextLink href={`/plants?category=${name}`} passHref>
-      <Link _hover={{ textDecoration: "none" }} rounded="lg" overflow="hidden">
-        <VStack
-          p={4}
-          bg="white"
-          shadow="md"
-          spacing={3}
-          align="center"
-          borderWidth="1px"
-          borderColor="gray.100"
-          transition="all 0.3s"
-          _hover={{
-            bg: "brand.50",
-            transform: "translateY(-2px)",
-            shadow: "lg",
-          }}
-          rounded="lg"
-        >
-          <Text fontSize="3xl" mb={1}>
-            {icon}
-          </Text>
-          <Text fontWeight="medium" color="gray.700">
-            {name}
-          </Text>
-        </VStack>
-      </Link>
-    </NextLink>
+    <Link
+      as={NextLink}
+      href={`/plants?category=${name}`}
+      _hover={{ textDecoration: "none" }}
+      rounded="lg"
+      overflow="hidden"
+    >
+      <VStack
+        p={4}
+        bg="white"
+        shadow="md"
+        spacing={3}
+        align="center"
+        borderWidth="1px"
+        borderColor="gray.100"
+        transition="all 0.3s"
+        _hover={{ bg: "brand.50", transform: "translateY(-2px)", shadow: "lg" }}
+        rounded="lg"
+      >
+        <Text fontSize="3xl" mb={1}>
+          {icon}
+        </Text>
+        <Text fontWeight="medium" color="gray.700">
+          {name}
+        </Text>
+      </VStack>
+    </Link>
   );
 };
 
@@ -136,30 +136,28 @@ export default function Home() {
                   簡単なアンケートに答えるだけで、理想の緑のパートナーが見つかります。
                 </Text>
                 <Stack direction={{ base: "column", sm: "row" }} spacing={4}>
-                  <NextLink href="/questionnaire" passHref>
-                    <Button
-                      as="a"
-                      size="lg"
-                      colorScheme="green"
-                      bg="brand.600"
-                      _hover={{ bg: "brand.700" }}
-                      px={8}
-                      rounded="full"
-                    >
-                      アンケートを始める
-                    </Button>
-                  </NextLink>
-                  <NextLink href="/faq" passHref>
-                    <Button
-                      as="a"
-                      size="lg"
-                      variant="outline"
-                      colorScheme="green"
-                      rounded="full"
-                    >
-                      初めての方はこちら
-                    </Button>
-                  </NextLink>
+                  <Button
+                    as={NextLink}
+                    href="/questionnaire"
+                    size="lg"
+                    colorScheme="green"
+                    bg="brand.600"
+                    _hover={{ bg: "brand.700" }}
+                    px={8}
+                    rounded="full"
+                  >
+                    アンケートを始める
+                  </Button>
+                  <Button
+                    as={NextLink}
+                    href="/faq"
+                    size="lg"
+                    variant="outline"
+                    colorScheme="green"
+                    rounded="full"
+                  >
+                    初めての方はこちら
+                  </Button>
                 </Stack>
               </Stack>
               <Flex
@@ -262,15 +260,15 @@ export default function Home() {
                 <RankingItem rank={5} name="エアプランツ" category="観葉植物" />
               </VStack>
               <Flex justify="flex-end">
-                <NextLink href="/ranking/popular" passHref>
-                  <Link
-                    color="accent.popular"
-                    fontWeight="medium"
-                    fontSize="sm"
-                  >
-                    ランキングをもっと見る <ChevronRightIcon />
-                  </Link>
-                </NextLink>
+                <Link
+                  as={NextLink}
+                  href="/ranking/popular"
+                  color="accent.popular"
+                  fontWeight="medium"
+                  fontSize="sm"
+                >
+                  ランキングをもっと見る <ChevronRightIcon />
+                </Link>
               </Flex>
             </Box>
 
@@ -324,11 +322,15 @@ export default function Home() {
                 />
               </VStack>
               <Flex justify="flex-end">
-                <NextLink href="/ranking/mania" passHref>
-                  <Link color="accent.mania" fontWeight="medium" fontSize="sm">
-                    ランキングをもっと見る <ChevronRightIcon />
-                  </Link>
-                </NextLink>
+                <Link
+                  as={NextLink}
+                  href="/ranking/mania"
+                  color="accent.mania"
+                  fontWeight="medium"
+                  fontSize="sm"
+                >
+                  ランキングをもっと見る <ChevronRightIcon />
+                </Link>
               </Flex>
             </Box>
           </SimpleGrid>
@@ -358,18 +360,17 @@ export default function Home() {
                 植物を育てるのが初めての方やよくある質問への回答をご用意しています。
                 植物の選び方から育て方まで、知っておくと便利な情報をまとめました。
               </Text>
-              <NextLink href="/faq" passHref>
-                <Button
-                  as="a"
-                  size="lg"
-                  colorScheme="green"
-                  variant="outline"
-                  rounded="full"
-                  px={8}
-                >
-                  よくある質問を見る
-                </Button>
-              </NextLink>
+              <Button
+                as={NextLink}
+                href="/faq"
+                size="lg"
+                colorScheme="green"
+                variant="outline"
+                rounded="full"
+                px={8}
+              >
+                よくある質問を見る
+              </Button>
             </Box>
           </Container>
         </Box>

@@ -15,24 +15,24 @@ import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
-// Navアイテムのコンポーネント
+// Navアイテムのコンポーネント - 修正版
 const NavItem = ({ children, href, isActive }) => {
   return (
-    <NextLink href={href} passHref>
-      <Link
-        px={2}
-        py={1}
-        rounded={"md"}
-        fontWeight={isActive ? "bold" : "medium"}
-        color={isActive ? "brand.700" : "gray.600"}
-        _hover={{
-          textDecoration: "none",
-          color: "brand.600",
-        }}
-      >
-        {children}
-      </Link>
-    </NextLink>
+    <Link
+      as={NextLink}
+      href={href}
+      px={2}
+      py={1}
+      rounded={"md"}
+      fontWeight={isActive ? "bold" : "medium"}
+      color={isActive ? "brand.700" : "gray.600"}
+      _hover={{
+        textDecoration: "none",
+        color: "brand.600",
+      }}
+    >
+      {children}
+    </Link>
   );
 };
 
@@ -68,8 +68,8 @@ export default function Header() {
           justify="space-between"
         >
           <Flex flex={{ base: 1 }} alignItems="center">
-            <NextLink href="/" passHref>
-              <Flex as="a" align="center" cursor="pointer">
+            <Link as={NextLink} href="/" _hover={{ textDecoration: "none" }}>
+              <Flex align="center" cursor="pointer">
                 <Text fontSize="2xl" mr={2}>
                   🌱
                 </Text>
@@ -90,7 +90,7 @@ export default function Header() {
                   植物推薦
                 </Text>
               </Flex>
-            </NextLink>
+            </Link>
           </Flex>
 
           {/* デスクトップナビゲーション */}
