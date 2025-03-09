@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/workspace:cached
+      - node_modules:/workspace/node_modules
+    ports:
+      - "3000:3000"
+    command: sleep infinity
+    environment:
+      - DATABASE_URL=mysql://root:rootpassword@db:3306/plant_recommendation_db
+      - NODE_ENV=development
+      - NPM_CONFIG_CACHE=/tmp/.npm
+    user: node
+    # ホストマシンのユーザーIDとグループIDでコンテナを実行（必要に応じて）
+    # user: "${UID:-1000}:${GID:-1000}"
+    depends_on:
+      - db
+    networks:
+      - plant-network
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=plant_recommendation_db
+      - MYSQL_USER=plantuser
+      - MYSQL_PASSWORD=plantpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./.devcontainer/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - plant-network
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - MYSQL_ROOT_PASSWORD=rootpassword
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+    networks:
+      - plant-network
+
+volumes:
+  # 名前付きボリュームでnode_modulesを管理
+  node_modules:
+    name: ${COMPOSE_PROJECT_NAME:-plant-recommendation-app}_node_modules
+  mysql-data:
+    name: ${COMPOSE_PROJECT_NAME:-plant-recommendation-app}_mysql-data
+
+networks:
+  plant-network:
+    driver: bridge

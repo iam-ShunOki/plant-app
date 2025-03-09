@@ -1,0 +1,156 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ユーザーモデル
+model User {
+  id               Int               @id @default(autoincrement())
+  name             String
+  email            String?
+  region           String
+  mbtiType         String?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  answers          Answer[]
+  recommendations  Recommendation[]
+}
+
+// 質問モデル
+model Question {
+  id             Int      @id @default(autoincrement())
+  questionText   String   @db.Text
+  questionType   String   // radio, checkbox, slider, etc.
+  options        Json?    // JSON形式で選択肢を保存
+  category       String   // environment, purpose, lifestyle, preference, etc.
+  order          Int
+  active         Boolean  @default(true)
+  answers        Answer[]
+}
+
+// 回答モデル
+model Answer {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  questionId Int
+  answerValue String   @db.Text
+  createdAt  DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id])
+  question   Question @relation(fields: [questionId], references: [id])
+
+  @@index([userId])
+  @@index([questionId])
+}
+
+// 植物カテゴリーモデル
+model PlantCategory {
+  id          Int     @id @default(autoincrement())
+  name        String
+  description String?  @db.Text
+  parentId    Int?
+  plants      Plant[]
+  parent      PlantCategory?  @relation("CategoryToSubcategory", fields: [parentId], references: [id])
+  children    PlantCategory[] @relation("CategoryToSubcategory")
+
+  @@index([parentId])
+}
+
+// 植物モデル
+model Plant {
+  id                  Int           @id @default(autoincrement())
+  nameJa              String        // 和名
+  nameEn              String?       // 英名
+  scientificName      String?       // 学名
+  categoryId          Int
+  difficulty          Int           // 1-5の難易度
+  sunlightRequirement String
+  waterFrequency      String
+  optimalTemperature  String
+  optimalHumidity     String
+  growthRate          String
+  matureSize          String
+  features            String?       @db.Text
+  effects             String?       @db.Text
+  recommendedLocation String?       @db.Text
+  careInstructions    String?       @db.Text
+  externalLinks       Json?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  category            PlantCategory @relation(fields: [categoryId], references: [id])
+  images              PlantImage[]
+  recommendations     Recommendation[]
+  ranking             PlantRanking?
+
+  @@index([categoryId])
+}
+
+// 植物画像モデル
+model PlantImage {
+  id        Int     @id @default(autoincrement())
+  plantId   Int
+  imageUrl  String
+  imageType String  // main, sub, detail, etc.
+  order     Int     @default(0)
+  plant     Plant   @relation(fields: [plantId], references: [id])
+
+  @@index([plantId])
+}
+
+// 推薦履歴モデル
+model Recommendation {
+  id                Int      @id @default(autoincrement())
+  userId            Int
+  plantId           Int
+  score             Float
+  recommendationDate DateTime @default(now())
+  shared            Boolean  @default(false)
+  user              User     @relation(fields: [userId], references: [id])
+  plant             Plant    @relation(fields: [plantId], references: [id])
+
+  @@index([userId])
+  @@index([plantId])
+}
+
+// FAQモデル
+model Faq {
+  id         Int      @id @default(autoincrement())
+  question   String   @db.Text
+  answer     String   @db.Text
+  category   String
+  order      Int      @default(0)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// MBTIと植物のマッピングモデル
+model MbtiPlantMapping {
+  id          Int      @id @default(autoincrement())
+  mbtiType    String
+  plantId     Int
+  description String?  @db.Text
+  score       Int      @default(0)
+
+  @@index([mbtiType])
+  @@index([plantId])
+}
+
+// 植物ランキングモデル
+model PlantRanking {
+  id                Int      @id @default(autoincrement())
+  plantId           Int      @unique
+  popularRank       Int?
+  maniaRank         Int?
+  popularVotes      Int      @default(0)
+  maniaVotes        Int      @default(0)
+  monthlyViews      Int      @default(0)
+  updatedAt         DateTime @updatedAt
+  plant             Plant    @relation(fields: [plantId], references: [id])
+}
